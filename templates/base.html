@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="{{ 'ru' if lang == 'ru' else 'kk' }}">
+<head>
+    <meta charset="UTF-8">
+    <title>Attendance | THPC</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{{ url_for('static', path='/css/styles.css') }}">
+</head>
+<body>
+<div class="page-wrapper">
+    <div class="app-shell">
+        <div class="app-shell-inner">
+            <header class="app-header">
+                <div class="app-title-block">
+                    <div class="app-logo-circle">AI</div>
+                    <div class="app-title-text">
+                        <div class="app-title">Attendance</div>
+                        <div class="app-subtitle">
+                            {% if lang == 'ru' %}
+                                Taldykorgan High Polytech College
+                            {% else %}
+                                Талдықорған жоғары политех коллежі
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+
+                <div class="lang-switch">
+                    <a href="/set-lang/ru" class="lang-btn {% if lang == 'ru' %}active{% endif %}">RU</a>
+                    <a href="/set-lang/kz" class="lang-btn {% if lang == 'kz' %}active{% endif %}">KZ</a>
+                </div>
+            </header>
+
+            {% block content %}{% endblock %}
+        </div>
+    </div>
+</div>
+</body>
+</html>

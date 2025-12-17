@@ -1,0 +1,111 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+{% if is_desktop %}
+    <div class="qr-card">
+        <div class="qr-text-block">
+            <h1 class="qr-title">
+                {% if lang == "ru" %}
+                    Вход для студентов только через QR-код
+                {% else %}
+                    Студенттер үшін кіру тек QR-код арқылы
+                {% endif %}
+            </h1>
+
+            <p class="qr-description">
+                {% if lang == "ru" %}
+                    Откройте камеру телефона или приложение для сканирования QR-кодов
+                    и наведите на этот код. После сканирования откроется мобильная
+                    страница входа.
+                {% else %}
+                    Телефон камерасын немесе QR сканерін ашып, осы кодқа бағыттаңыз.
+                    Сканерлегеннен кейін мобильді кіру беті ашылады.
+                {% endif %}
+            </p>
+
+            <p class="qr-description">
+                {% if lang == "ru" %}
+                    Вход с компьютера для студентов отключён по соображениям безопасности.
+                    <span class="qr-highlight">
+                        Каждый студент отмечается только со своего телефона.
+                    </span>
+                {% else %}
+                    Қауіпсіздік үшін студенттерге компьютер арқылы кіру өшірілген.
+                    <span class="qr-highlight">
+                        Әр студент тек өз телефонынан ғана белгі қояды.
+                    </span>
+                {% endif %}
+            </p>
+        </div>
+
+        <div class="qr-box">
+            <div class="qr-frame">
+                <!-- Поставь сюда реальный QR-код с публичной ссылкой /login -->
+                <img src="/static/img/qr_placeholder.png" alt="QR code">
+            </div>
+            <div class="qr-caption">
+                {% if lang == "ru" %}
+                    Отсканируйте QR-код со смартфона, чтобы открыть мобильный вход.
+                {% else %}
+                    Мобильді кіру парағын ашу үшін QR-кодты телефонмен сканерлеңіз.
+                {% endif %}
+            </div>
+        </div>
+    </div>
+
+{% else %}
+
+    <div class="auth-card">
+        <h1 class="auth-title">
+            {% if lang == "ru" %}Вход студента{% else %}Студенттің кіруі{% endif %}
+        </h1>
+
+        {% if success %}
+            <div class="flash flash-success">{{ success }}</div>
+        {% endif %}
+        {% if error %}
+            <div class="flash">{{ error }}</div>
+        {% endif %}
+
+        <form method="post" action="/login">
+            <div class="form-row">
+                <label class="form-label" for="login">
+                    {% if lang == "ru" %}Логин{% else %}Логин{% endif %}
+                </label>
+                <input id="login" name="login" type="text"
+                       class="form-input" placeholder="login123" required>
+            </div>
+
+            <div class="form-row">
+                <label class="form-label" for="password">
+                    {% if lang == "ru" %}Пароль{% else %}Құпиясөз{% endif %}
+                </label>
+                <input id="password" name="password" type="password"
+                       class="form-input" placeholder="Password" required>
+            </div>
+
+            <div class="form-footer">
+                <button type="submit" class="btn btn-primary">
+                    {% if lang == "ru" %}Войти{% else %}Кіру{% endif %}
+                </button>
+                <a href="/" class="btn btn-secondary">
+                    {% if lang == "ru" %}← Главная{% else %}← Басты бет{% endif %}
+                </a>
+            </div>
+
+            <p class="hero-note" style="margin-top: 18px;">
+                {% if lang == "ru" %}
+                    Один аккаунт привязывается только к одному телефону.
+                    Не передавайте логин и пароль другим студентам.
+                {% else %}
+                    Бір аккаунт тек бір телефонға тіркеледі.
+                    Логин мен құпиясөзіңізді ешкімге бермеңіз.
+                {% endif %}
+            </p>
+        </form>
+    </div>
+
+{% endif %}
+
+{% endblock %}

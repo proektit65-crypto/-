@@ -1,0 +1,78 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="mark-card">
+    <div class="mark-header">
+        <h1 class="mark-title">
+            {% if lang == "ru" %}
+                Отметка посещаемости
+            {% else %}
+                Қатысуды белгілеу
+            {% endif %}
+        </h1>
+        <p class="mark-meta">
+            {% if lang == "ru" %}
+                Нажмите кнопку ниже, чтобы отметить своё присутствие на сегодня.
+            {% else %}
+                Бүгінгі сабаққа қатысуыңызды белгілеу үшін төмендегі батырманы басыңыз.
+            {% endif %}
+        </p>
+    </div>
+
+    {% if error_msg %}
+        <div class="flash">{{ error_msg }}</div>
+    {% endif %}
+    {% if success_msg %}
+        <div class="flash flash-success">{{ success_msg }}</div>
+    {% endif %}
+
+    <p class="mark-motivation">
+        {{ motivation_preview }}
+    </p>
+
+    <div class="mark-actions">
+        <form id="markForm" method="post" action="/mark">
+            <input type="hidden" name="login" value="{{ login }}">
+            <input type="hidden" name="group_name" value="{{ group_name }}">
+            <input type="hidden" id="lat" name="lat">
+            <input type="hidden" id="lon" name="lon">
+            <input type="hidden" id="accuracy" name="accuracy">
+
+            <button type="submit" class="btn btn-primary">
+                {% if lang == "ru" %}Отметиться{% else %}Қатыстым деп белгілеу{% endif %}
+            </button>
+
+            <a href="/" class="btn btn-secondary">
+                {% if lang == "ru" %}← На главную{% else %}← Басты бетке{% endif %}
+            </a>
+        </form>
+    </div>
+</div>
+
+<script>
+document.addEventListener("DOMContentLoaded", function () {
+    const latInput = document.getElementById("lat");
+    const lonInput = document.getElementById("lon");
+    const accInput = document.getElementById("accuracy");
+
+    if (!navigator.geolocation) {
+        console.warn("Geolocation not supported");
+        return;
+    }
+
+    navigator.geolocation.getCurrentPosition(
+        function (pos) {
+            latInput.value = pos.coords.latitude;
+            lonInput.value = pos.coords.longitude;
+            accInput.value = pos.coords.accuracy;
+            console.log("Geo:", latInput.value, lonInput.value, accInput.value);
+        },
+        function (err) {
+            console.error("Geo error", err);
+            alert("{{ 'Нужно включить геолокацию и разрешить доступ к местоположению.' if lang == 'ru' else 'Геолокацияны қосып, орналасуға рұқсат беру қажет.' }}");
+        },
+        { enableHighAccuracy: true, timeout: 10000, maximumAge: 0 }
+    );
+});
+</script>
+{% endblock %}

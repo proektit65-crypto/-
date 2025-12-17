@@ -1,0 +1,42 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="content-card">
+    <div class="content-card-inner">
+        <h1 class="hero-title">
+            {% if lang == "ru" %}
+                Добро пожаловать!
+            {% else %}
+                Қош келдіңіз!
+            {% endif %}
+        </h1>
+
+        <p class="hero-text">
+            {% if lang == "ru" %}
+                Система учёта посещаемости колледжа. Студенты отмечают присутствие через QR-код и
+                геолокацию, администратор в режиме реального времени видит статистику по группам.
+            {% else %}
+                Колледждің келуін есепке алу жүйесі. Студенттер QR-код пен геолокация арқылы
+                қатысуын белгілейді, әкімші топтар бойынша статистиканы көреді.
+            {% endif %}
+        </p>
+
+        <p class="hero-note">
+            {% if lang == "ru" %}
+                Выберите роль, с которой хотите войти.
+            {% else %}
+                Кіру үшін рөліңізді таңдаңыз.
+            {% endif %}
+        </p>
+
+        <div class="role-actions">
+            <a href="/login" class="btn btn-primary">
+                {% if lang == "ru" %}Войти как студент{% else %}Студент ретінде кіру{% endif %}
+            </a>
+            <a href="/admin/login" class="btn btn-secondary">
+                {% if lang == "ru" %}Войти как админ{% else %}Әкімші ретінде кіру{% endif %}
+            </a>
+        </div>
+    </div>
+</div>
+{% endblock %}

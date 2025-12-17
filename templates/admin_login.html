@@ -1,0 +1,63 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="auth-card">
+    <h1 class="auth-title">
+        {% if lang == "ru" %}
+            Вход администратора
+        {% else %}
+            Әкімші кіруі
+        {% endif %}
+    </h1>
+
+    <p class="auth-description">
+        {% if lang == "ru" %}
+            Введите логин и пароль администратора, чтобы открыть панель посещаемости
+            и просматривать отчёты по группам.
+        {% else %}
+            Қатысу есебін көру үшін әкімші логині мен құпиясөзін енгізіңіз.
+        {% endif %}
+    </p>
+
+    {% if error %}
+        <div class="flash">{{ error }}</div>
+    {% endif %}
+
+    <form method="post" action="/admin/login">
+        <div class="form-row">
+            <label class="form-label" for="login">
+                {% if lang == "ru" %}Логин{% else %}Логин{% endif %}
+            </label>
+            <input id="login" name="login" type="text"
+                   class="form-input" placeholder="Логин" required>
+        </div>
+
+        <div class="form-row">
+            <label class="form-label" for="password">
+                {% if lang == "ru" %}Пароль{% else %}Құпиясөз{% endif %}
+            </label>
+            <input id="password" name="password" type="password"
+                   class="form-input" placeholder="Пароль" required>
+        </div>
+
+        <div class="form-footer">
+            <button type="submit" class="btn btn-primary">
+                {% if lang == "ru" %}Войти{% else %}Кіру{% endif %}
+            </button>
+            <a href="/" class="btn btn-secondary">
+                {% if lang == "ru" %}← Главная{% else %}← Басты бет{% endif %}
+            </a>
+        </div>
+
+        <p class="hero-note" style="margin-top: 18px;">
+            {% if lang == "ru" %}
+                Вход администратора разрешён только с компьютера.
+                Студенты отмечаются через QR-код и свои телефоны.
+            {% else %}
+                Әкімші жүйеге тек компьютер арқылы кіреді.
+                Студенттер қатысуды QR-код және өз телефондары арқылы белгілейді.
+            {% endif %}
+        </p>
+    </form>
+</div>
+{% endblock %}

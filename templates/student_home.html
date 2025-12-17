@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="{{ 'ru' if lang == 'ru' else 'kk' }}">
+<head>
+    <meta charset="UTF-8">
+    <title>Attendance – Student</title>
+    <link rel="stylesheet" href="{{ url_for('static', path='/css/styles.css') }}">
+</head>
+<body>
+<div class="app-root">
+    <div class="app-shell">
+        <header class="app-header">
+            <div class="brand">
+                <div class="brand-logo">AI</div>
+                <div class="brand-text">
+                    <div class="brand-title">Attendance</div>
+                    <div class="brand-subtitle">
+                        {{ student.name }} · {{ student.group }}
+                    </div>
+                </div>
+            </div>
+
+            <div class="lang-switch">
+                <a href="/set-lang/ru" class="lang-btn {% if lang == 'ru' %}active{% endif %}">RU</a>
+                <a href="/set-lang/kz" class="lang-btn {% if lang == 'kz' %}active{% endif %}">KZ</a>
+            </div>
+        </header>
+
+        <main class="app-main">
+            <section class="center-card">
+                <h1 class="title">{{ t.home_title }}</h1>
+                <p class="subtitle">{{ t.home_subtitle }}</p>
+
+                {% if checked_in %}
+                    <p class="subtitle small" style="margin-top:14px; color:#a7f3d0;">
+                        {{ t.home_done }}
+                    </p>
+                {% endif %}
+
+                <form class="login-form" method="post" action="/student/checkin" style="margin-top:32px;">
+                    <input type="hidden" name="name" value="{{ student.name }}">
+                    <input type="hidden" name="group" value="{{ student.group }}">
+
+                    <div class="form-actions">
+                        <button type="submit" class="btn btn-primary">
+                            {{ t.home_button }}
+                        </button>
+                        <a href="/" class="btn btn-text">← Выйти</a>
+                    </div>
+                </form>
+            </section>
+        </main>
+    </div>
+</div>
+</body>
+</html>

@@ -1,0 +1,53 @@
+from datetime import datetime, date
+
+from sqlalchemy import (
+    Column,
+    Integer,
+    String,
+    Date,
+    DateTime,
+    Boolean,
+    ForeignKey,
+)
+from sqlalchemy.orm import relationship
+
+from database import Base
+
+
+class Admin(Base):
+    __tablename__ = "admins"
+
+    id = Column(Integer, primary_key=True, index=True)
+    username = Column(String, unique=True, index=True, nullable=False)
+    password = Column(String, nullable=False)  # для демо — открытый текст
+    session_token = Column(String, nullable=True)
+
+
+class Student(Base):
+    __tablename__ = "students"
+
+    id = Column(Integer, primary_key=True, index=True)
+    full_name = Column(String, nullable=False)
+    login = Column(String, unique=True, index=True, nullable=False)
+    password = Column(String, nullable=False)      # для демо — открытый текст
+    group_name = Column(String, nullable=True)
+    device_uid = Column(String, nullable=True)
+    is_active = Column(Boolean, default=True)
+    created_at = Column(DateTime, default=datetime.utcnow)
+
+    attendance = relationship("Attendance", back_populates="student")
+
+
+class Attendance(Base):
+    __tablename__ = "attendance"
+
+    id = Column(Integer, primary_key=True, index=True)
+    student_id = Column(Integer, ForeignKey("students.id"), nullable=False)
+    date = Column(Date, nullable=False, default=date.today)
+    status = Column(Integer, nullable=False, default=1)  # 1 = пришёл
+    created_at = Column(DateTime, default=datetime.utcnow)
+    ip_address = Column(String, nullable=True)
+    device_uid = Column(String, nullable=True)
+    motivation_text = Column(String, nullable=True)
+
+    student = relationship("Student", back_populates="attendance")
